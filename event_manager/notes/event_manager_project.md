@@ -41,3 +41,8 @@ Gives this:
 	- Columns are unable to support a value which contain a comma (,) character.
 
 > *Look for a Solution before Building a Solution*
+
+## Iteration 1: Parsing with CSV
+
+- `:headers => true` treats the first row as a header instead of a data row.
+- `:header_converters => :symbolize` parameter then converts each cell in the header row into Ruby symbol.
