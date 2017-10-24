@@ -46,3 +46,12 @@ Gives this:
 
 - `:headers => true` treats the first row as a header instead of a data row.
 - `:header_converters => :symbolize` parameter then converts each cell in the header row into Ruby symbol.
+
+- We may have a problem: Some zip codes are missing or represented with less than a five-digit number.
+
+## Iteration 2: Cleaning up our Zip Codes
+
+
+
+
+
