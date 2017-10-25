@@ -22,3 +22,5 @@ contents.each do |row|
   zipcode = clean_zipcode(row[:zipcode])
   puts "#{name} #{zipcode}"
 end
+
+# I HAD TO SKIP ITERATION 3 BECAUSE THE API USED IN THE TUTORIAL HAS REMOVED.

@@ -49,9 +49,16 @@ Gives this:
 
 - We may have a problem: Some zip codes are missing or represented with less than a five-digit number.
 
-## Iteration 2: Cleaning up our Zip Codes
+## Iteration 3: Using Sunlight
 
+http://congress.api.sunlightfoundation.com/legislators/locate?zip=90201&apikey=e179a6973728c4dd3fb1204283aaccb5
 
-
-
+- `http://` : Use the HTTP protocol
+- `congress.api.sunlightfoundation.com` : The server address on the internet
+- `legislators.` : The object name
+- `locate.` : The method called on that object
+- `?` : Parameters to the method
+	- `&` : The parameter separator
+	- `zip=90201` : The zipcode we want to lookup
+	- `apikey=e179a6973728c4dd3fb1204283aaccb5` : A registered API Key to authenticate our requests
 
