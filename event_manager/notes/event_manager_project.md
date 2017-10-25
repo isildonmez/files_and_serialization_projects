@@ -62,3 +62,21 @@ http://congress.api.sunlightfoundation.com/legislators/locate?zip=90201&apikey=e
 	- `zip=90201` : The zipcode we want to lookup
 	- `apikey=e179a6973728c4dd3fb1204283aaccb5` : A registered API Key to authenticate our requests
 
+## Iteration 4: Form Letters
+
+- If we want to include a customized letter:
+	1. we can define the template as a large string like `form_letter = %{ String Contents: the template}`. However, it makes the template and the application code much more difficult to understand.
+	2. we can load the template using the same File tools like `template_letter = File.read "form_letter.html"`
+
+- Possible problems:
+	- Using FIRST_NAME and LEGISLATORS to find and replace might cause us problems if later somehow this text appears in any of our template
+	- We cannot represent multiple items very easily if they are surrounded by HTML. We may need another template
+
+- Ruby defines a template language named ERB. Defining an ERB template is extremely similar to our existing template. The difference is that we use an escape sequence tags which allow us to insert any variables, methods or ruby code we want to execute.
+
+- File#open allows us to open a file for reading and writing. The first parameter is the name of the file. The second parameter is a flag that states how we want to open the file. The ‘w’ states we want to open the file for writing. If the file already exists it will be destroyed.
+
+- The file object responds to the message puts. The file#puts is similar to the Kernel#puts that we have been using up to this point.
+
+
+
