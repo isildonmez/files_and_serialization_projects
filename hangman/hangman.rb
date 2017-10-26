@@ -19,14 +19,14 @@ class Hangman
     dictionary = File.readlines("5desk.txt")
     sample_word = dictionary.sample.strip
     until sample_word.length.between?(5, 12)
-      sample_word = dictionary.sample.strips
+      sample_word = dictionary.sample.strip
     end
     @secret_word = sample_word.downcase
     p @secret_word
   end
 
   def get_the_guess
-    puts "Make a guest:"
+    puts "Make a guess:"
     @guess = gets.chomp.downcase
     # all_letters = @guess.ord.between?(97, 122)
     # one_letter = @guess[1].nil?
@@ -51,16 +51,21 @@ class Hangman
   end
 
   def how_many_guesses_remain
-  	if @mistaken_letters.size = 5
-  	  puts "You shouldn't make a wrong guess to win"
-  	else
-  	  puts "You have #{5 - @mistaken_letters.size} guesses remain for your wrong guesses."
+  	case @mistaken_letters.size
+  	  when 6
+  	  	puts "You don't have any guesses remain"
+  	  when 5
+  	    puts "You shouldn't make a wrong guess to win"
+  	  when 4
+  	  	puts "You have #{5 - @mistaken_letters.size} guess remain for your wrong guesses."
+  	  else
+  	    puts "You have #{5 - @mistaken_letters.size} guesses remain for your wrong guesses."
   	end
   end
 
   def wrong_guesses
   	if @mistaken_letters.empty?
-  	  puts "You don't have any wrong guess so far"
+  	  puts "You don't have any wrong guesses so far"
   	else
   	  puts "Wrong guesses so far: #{@mistaken_letters.join(", ")}"
   	end
@@ -85,14 +90,14 @@ class Hangman
   def act
   	  create_secret_code
   	  puts "#{@secret_word.length.times {print "- "}}"
-  	while @mistaken_letters.size < 6 ||
-          @visualised_word != @secret_word
+  	until (@mistaken_letters.size == 6) ||
+           (@visualised_word == @secret_word)
       get_the_guess
       analyse_the_guess
       puts @drawn_hangman
-      puts @visualised_word
       wrong_guesses
 	  how_many_guesses_remain
+      puts @visualised_word
     end
     puts "Game over" if @mistaken_letters.size == 6
     puts "Congratulations" if @visualised_word == @secret_word
