@@ -47,12 +47,23 @@ class Hangman
   	else
   	  draw_a_hangman
       @mistaken_letters << @guess
-      how_many_guesses_remain
   	end
   end
 
   def how_many_guesses_remain
-  	@remained_guesses = 5 - @mistaken_letters.size
+  	if @mistaken_letters.size = 5
+  	  puts "You shouldn't make a wrong guess to win"
+  	else
+  	  puts "You have #{5 - @mistaken_letters.size} guesses remain for your wrong guesses."
+  	end
+  end
+
+  def wrong_guesses
+  	if @mistaken_letters.empty?
+  	  puts "You don't have any wrong guess so far"
+  	else
+  	  puts "Wrong guesses so far: #{@mistaken_letters.join(", ")}"
+  	end
   end
 
   def visualise_the_word
@@ -80,8 +91,8 @@ class Hangman
       analyse_the_guess
       puts @drawn_hangman
       puts @visualised_word
-      puts "Wrong guesses so far: #{@mistaken_letters.join(", ")}"
-      puts "#{@remained_guesses} guesses remain"
+      wrong_guesses
+	  how_many_guesses_remain
     end
     puts "Game over" if @mistaken_letters.size == 6
     puts "Congratulations" if @visualised_word == @secret_word
