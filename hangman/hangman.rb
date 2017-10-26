@@ -4,11 +4,15 @@ class Hangman
     @mistaken_letters = []
 
     welcoming
-    draw_a_hangman
     act
   end
 
+  # TODO: IF SAVED GAME
   def welcoming
+  	puts "Welcome to Hangman"
+  	# If not saved game
+  	puts "You can make at most 5 wrong guesses to find out the secret word."
+  	draw_a_hangman
   end
 
   def create_secret_code
@@ -17,7 +21,7 @@ class Hangman
     until sample_word.length.between?(5, 12)
       sample_word = dictionary.sample
     end
-    @secret_word = sample_word
+    @secret_word = sample_word.downcase
   end
 
   def get_the_guess
@@ -47,8 +51,8 @@ class Hangman
   end
 
   def act
+  	  create_secret_code
   	while @mistaken_letters.size < 7
-      create_secret_code
       get_the_guess
       draw_a_hangman
       visualise_the_word
