@@ -1,6 +1,7 @@
 class Hangman
   def initialize()
     @mistaken_letters = []
+    @right_guesses = ""
 
     welcoming
     act
@@ -14,7 +15,6 @@ class Hangman
   	draw_a_hangman
   end
 
-  # TODO: the type of the secret_word
   def create_secret_code
     dictionary = File.readlines("5desk.txt")
     sample_word = dictionary.sample.strip
@@ -43,6 +43,7 @@ class Hangman
 
   def analyse_the_guess
   	if @secret_word.include? @guess
+      @right_guesses += @guess
   	  visualise_the_word
   	else
   	  draw_a_hangman
@@ -72,8 +73,7 @@ class Hangman
   end
 
   def visualise_the_word
-
-  	@visualised_word = "visualised the word test"
+    @visualised_word = @secret_word.tr("^#{@right_guesses}", "-")
   end
 
   def draw_a_hangman
@@ -89,16 +89,16 @@ class Hangman
 
   def act
   	  create_secret_code
-  	  puts "#{@secret_word.length.times {print "- "}}"
   	until (@mistaken_letters.size == 6) ||
            (@visualised_word == @secret_word)
+      puts @visualised_word
       get_the_guess
       analyse_the_guess
       puts @drawn_hangman
       wrong_guesses
-	  how_many_guesses_remain
-      puts @visualised_word
+	    how_many_guesses_remain
     end
+    puts @secret_word
     puts "Game over" if @mistaken_letters.size == 6
     puts "Congratulations" if @visualised_word == @secret_word
   end
