@@ -1,7 +1,8 @@
 class Hangman
   def initialize()
     @mistaken_letters = []
-    @right_guesses = ""
+    @right_guesses = " "
+    @drawing_array = ["  ___", "  | \\|", "     |", "     |", "     |", "     |", "   __|_"]
 
     welcoming
     act
@@ -28,12 +29,9 @@ class Hangman
   def get_the_guess
     puts "Make a guess:"
     @guess = gets.chomp.downcase
-    # all_letters = @guess.ord.between?(97, 122)
-    # one_letter = @guess[1].nil?
-    # old_@guess = @mistaken_letters.include? @guess
 
     until @guess.ord.between?(97, 122) &&
-          @guess[1].nil? &&
+          @guess.size == 1 &&
           !(@mistaken_letters.include? @guess)
       puts "Please make a new and valid guess"
       @guess = gets.chomp.downcase
@@ -78,23 +76,35 @@ class Hangman
   end
 
   def draw_a_hangman
-    drawing_array = ["  ___", "  | \\|", "     |", "     |", "     |", "     |", "   __|_"]
     case @mistaken_letters.size
       when 1
-        drawing_array[2][2] = "O"
+        @drawing_array[2][2] = "O"
       when 2
-        drawing_array[3][2] = "|"
-        drawing_array[4][2] = "|"
+        @drawing_array[3][2] = "|"
+        @drawing_array[4][2] = "|"
       when 3
-        drawing_array[3][1] = "/"
+        @drawing_array[3][1] = "/"
       when 4
-        drawing_array[3][3] = "\\"
+        @drawing_array[3][3] = "\\"
       when 5
-        drawing_array[5][1] = "/"
+        @drawing_array[5][1] = "/"
       when 6
-        drawing_array[5][3] = "\\"
+        @drawing_array[5][3] = "\\"
     end
-    @drawn_hangman = drawing_array.each {|line| puts line}
+    @drawn_hangman = @drawing_array.join("\n")
+  # def draw_a_hangman(wrong_guesses)
+  #   body = ['O', '|', '/', '\\', '/','\\']
+  #   template =
+  #     " __\n"\
+  #     " | \\|\n"\
+  #     " %1$s  |\n"\
+  #     "%3$s%2$s%4$s |\n"\
+  #     " %2$s  |\n"\
+  #     "%5$s %6$s |\n"\
+  #     "  __|"
+  #   current_body = body.first(wrong_guesses) + [" "] * (body.size - wrong_guesses)
+  #   return template % current_body
+  # end
 
 	#  ___
 	#  | \|
@@ -107,8 +117,7 @@ class Hangman
 
   def act
   	  create_secret_code
-      @visualised_word = @secret_word.length.times {print "-"}
-      puts ""
+      puts @visualised_word
   	until (@mistaken_letters.size == 6) ||
           (@visualised_word == @secret_word)
       get_the_guess
