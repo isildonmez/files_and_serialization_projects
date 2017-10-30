@@ -27,7 +27,7 @@ class Hangman
         load_the_game
       end
     end
-    @drawn_hangman
+    puts draw_a_hangman
   end
 
   def new_game
@@ -42,7 +42,6 @@ class Hangman
       sample_word = dictionary.sample.strip
     end
     @secret_word = sample_word.downcase
-    p @secret_word
   end
 
   def get_the_guess
@@ -94,7 +93,6 @@ class Hangman
     p @visualised_word
   end
 
-  # TODO: does not work
   def draw_a_hangman
     case @mistaken_letters.size
       when 1
@@ -112,6 +110,7 @@ class Hangman
         @drawing_array[5][3] = "\\"
     end
     @drawn_hangman = @drawing_array.join("\n")
+  end
   # def draw_a_hangman(wrong_guesses)
   #   body = ['O', '|', '/', '\\', '/','\\']
   #   template =
@@ -125,15 +124,6 @@ class Hangman
   #   current_body = body.first(wrong_guesses) + [" "] * (body.size - wrong_guesses)
   #   return template % current_body
   # end
-
-	#  ___
-	#  | \|
-	#  O  |
-	# /|\ |
-	#  |  |
-	# / \ |
-	#   __|_
-  end
 
   def what_is_next
     puts "Do you want to save the game and quit or continue to this game?"
@@ -175,7 +165,8 @@ class Hangman
     data = JSON.dump ({
       :secret_word => @secret_word,
       :mistaken_letters => @mistaken_letters,
-      :right_guesses => @right_guesses
+      :right_guesses => @right_guesses,
+      :drawing_array => @drawing_array
     })
     File.open('saved_game.json', 'w'){|file| file.write(data)}
   end
@@ -185,6 +176,7 @@ class Hangman
     @secret_word = data['secret_word']
     @mistaken_letters = data['mistaken_letters']
     @right_guesses = data['right_guesses']
+    @drawing_array = data['drawing_array']
   end
 
 end
