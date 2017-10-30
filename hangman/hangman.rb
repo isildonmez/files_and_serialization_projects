@@ -11,22 +11,28 @@ class Hangman
     act
   end
 
-  # TODO: what if saved_game.json is empty?
   def welcoming
   	puts "Welcome to Hangman"
-    puts "Do you want a new game or continue with the saved game? Enter 'new' or 'old'."
-    which_game = gets.chomp.downcase
-    until which_game == 'new' || 'old'
-      puts "Enter 'new' or 'old'."
-    end
-    if which_game == 'new'
-      create_secret_code
-    	puts "You can make at most 5 wrong guesses to find out the secret word."
-      # TODO: does not work.
-    	@drawn_hangman
+    if File.zero?("saved_game.json")
+      new_game
     else
-      load_the_game
+      puts "Do you want a new game or continue with the saved game? Enter 'new' or 'old'."
+      which_game = gets.chomp.downcase
+      until which_game == 'new' || 'old'
+        puts "Enter 'new' or 'old'."
+      end
+      if which_game == 'new'
+        new_game
+      else
+        load_the_game
+      end
     end
+    @drawn_hangman
+  end
+
+  def new_game
+    create_secret_code
+    puts "You can make at most 5 wrong guesses to find out the secret word."
   end
 
   def create_secret_code
@@ -88,6 +94,7 @@ class Hangman
     p @visualised_word
   end
 
+  # TODO: does not work
   def draw_a_hangman
     case @mistaken_letters.size
       when 1
