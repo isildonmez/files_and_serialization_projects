@@ -1,19 +1,32 @@
+require 'json'
+
 class Hangman
   def initialize()
     @mistaken_letters = []
     @right_guesses = " "
     @drawing_array = ["  ___", "  | \\|", "     |", "     |", "     |", "     |", "   __|_"]
+    @quit_the_game = false
 
     welcoming
     act
   end
 
-  # TODO: IF SAVED GAME
+  # TODO: what if saved_game.json is empty?
   def welcoming
   	puts "Welcome to Hangman"
-  	# If not saved game
-  	puts "You can make at most 5 wrong guesses to find out the secret word."
-  	draw_a_hangman
+    puts "Do you want a new game or continue with the saved game? Enter 'new' or 'old'."
+    which_game = gets.chomp.downcase
+    until which_game == 'new' || 'old'
+      puts "Enter 'new' or 'old'."
+    end
+    if which_game == 'new'
+      create_secret_code
+    	puts "You can make at most 5 wrong guesses to find out the secret word."
+      # TODO: does not work.
+    	@drawn_hangman
+    else
+      load_the_game
+    end
   end
 
   def create_secret_code
@@ -115,25 +128,61 @@ class Hangman
 	#   __|_
   end
 
+  def what_is_next
+    puts "Do you want to save the game and quit or continue to this game?"
+    puts "Please enter 'save' or 'continue'."
+    answer = gets.chomp.downcase
+    until (answer == 'save') || (answer == 'continue')
+      puts "Enter 'save' or 'continue', please."
+      answer = gets.chomp.downcase
+    end
+    if answer == 'save'
+      save_the_game
+      @quit_the_game = true
+    end
+  end
+
   def act
-  	  create_secret_code
       puts @visualised_word
   	until (@mistaken_letters.size == 6) ||
-          (@visualised_word == @secret_word)
+          (@visualised_word == @secret_word) ||
+          @quit_the_game
       get_the_guess
       analyse_the_guess
       puts @visualised_word
       puts @drawn_hangman
       wrong_guesses
 	    how_many_guesses_remain
+      what_is_next
     end
-    puts @secret_word.upcase
-    puts "Game over" if @mistaken_letters.size == 6
-    puts "Congratulations" if @visualised_word == @secret_word
+    if @quit_the_game
+      puts "Game is saved. See you later!"
+    else
+      puts @secret_word.upcase
+      puts "Game over" if @mistaken_letters.size == 6
+      puts "Congratulations" if @visualised_word == @secret_word
+    end
+  end
+
+  def save_the_game
+    data = JSON.dump ({
+      :secret_word => @secret_word,
+      :mistaken_letters => @mistaken_letters,
+      :right_guesses => @right_guesses
+    })
+    File.open('saved_game.json', 'w'){|file| file.write(data)}
+  end
+
+  def load_the_game
+    data = JSON.load File.read('saved_game.json')
+    @secret_word = data['secret_word']
+    @mistaken_letters = data['mistaken_letters']
+    @right_guesses = data['right_guesses']
   end
 
 end
 
 game = Hangman.new
+
 
 
