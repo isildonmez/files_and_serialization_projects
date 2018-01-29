@@ -20,6 +20,7 @@ class Hangman
       which_game = gets.chomp.downcase
       until (which_game == 'new') || (which_game == 'old')
         puts "Enter 'new' or 'old'."
+        which_game = gets.chomp.downcase
       end
       if which_game == 'new'
         new_game
