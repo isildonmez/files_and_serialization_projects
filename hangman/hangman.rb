@@ -18,7 +18,7 @@ class Hangman
     else
       puts "Do you want a new game or continue with the saved game? Enter 'new' or 'old'."
       which_game = gets.chomp.downcase
-      until which_game == 'new' || 'old'
+      until (which_game == 'new') || (which_game == 'old')
         puts "Enter 'new' or 'old'."
       end
       if which_game == 'new'
