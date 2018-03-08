@@ -91,7 +91,6 @@ class Hangman
 
   def visualise_the_word
     @visualised_word = @secret_word.tr("^#{@right_guesses}", "-")
-    p @visualised_word
   end
 
   def draw_a_hangman
@@ -144,11 +143,13 @@ class Hangman
       puts @visualised_word
   	until (@mistaken_letters.size == 6) ||
           (@visualised_word == @secret_word) ||
-          @quit_the_game
+          (@quit_the_game)
       get_the_guess
       analyse_the_guess
       puts @visualised_word
       puts @drawn_hangman
+      break if @visualised_word == @secret_word
+      break if @mistaken_letters.size == 6
       wrong_guesses
 	    how_many_guesses_remain
       what_is_next
